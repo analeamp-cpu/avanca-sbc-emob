@@ -122,7 +122,7 @@ a { color: inherit; }
   .city-hero-inner { grid-template-columns: 1fr; padding: 34px 19px 18px; }
   .city-hero h1 { font-size: clamp(36px, 8.9vw, 57px); }
   .cover-art { margin: 2px auto 0; max-width: 400px; }
-  .cover-art figcaption { left: 4%; }
+  .cover-art figcaption { position: static; width: fit-content; margin: 8px auto 0; }
   .city-body { padding: 0 17px; }
   .section-nav { gap: 14px; padding: 15px 0; }
   .city-section { padding: 36px 0 28px; scroll-margin-top: 12px; }
