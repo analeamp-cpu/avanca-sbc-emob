@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Avança SBC E-Mob | São Bernardo do Campo</title>
-  <meta name="description" content="Plano de continuidade 2026–2031 do programa de inovação em eletromobilidade do CEITEC de São Bernardo do Campo.">
+  <meta name="description" content="Plano de continuidade 2026–2031 e gestão do programa de inovação em eletromobilidade do CEITEC de São Bernardo do Campo.">
   <link rel="icon" href="marca.svg" type="image/svg+xml">
   <link rel="stylesheet" href="gestao.css">
   <link rel="stylesheet" href="portal.css">
+  <script defer src="gestao.js"></script>
+  <script defer src="apoiadores.js"></script>
   <script defer src="portal.js"></script>
 </head>
 <body>
@@ -17,7 +19,10 @@
       <img src="marca.svg" alt="" width="42" height="42">
       <span><strong>AVANÇA SBC <b>E-MOB</b></strong><small>São Bernardo do Campo · CEITEC</small></span>
     </a>
-    <a class="action" href="#jornada">Plano para a cidade</a>
+    <nav class="switch" aria-label="Visualizações do programa">
+      <a id="cityLink" href="#cidade">Plano para a cidade</a>
+      <a id="managementLink" href="#ceitec">Gestão CEITEC</a>
+    </nav>
     <span class="edition">Proposta 2026–2031</span>
   </header>
   <main id="conteudo" tabindex="-1">
@@ -92,7 +97,23 @@
         </section>
       </div>
     </div>
+    <div id="management" hidden>
+      <aside class="management-sidebar">
+
+        <nav id="nav" aria-label="Módulos de gestão"></nav>
+        <div class="sidebar-bottom"><span class="avatar">CE</span><strong>Equipe CEITEC</strong><div class="kicker">Programa Avança SBC E-Mob</div></div>
+      </aside>
+      <div class="management-content">
+        <div class="management-header"><div class="crumb">Gestão CEITEC <span aria-hidden="true">/</span> <span id="breadcrumb">Visão geral</span></div><span class="tag">Demonstração pública</span></div>
+        <div class="wrap">
+          <p class="notice"><strong>Versão de demonstração.</strong> Use apenas dados fictícios. As alterações ficam nesta sessão e são apagadas ao recarregar a página.</p>
+          <div id="app"></div>
+        </div>
+      </div>
+    </div>
   </main>
   <footer class="portal-footer"><span><b>Avança SBC E-Mob</b> · CEITEC</span><span>São Bernardo do Campo · Proposta institucional</span></footer>
+  <dialog id="modal"></dialog>
+  <div id="toast" hidden class="toast" role="status"></div>
 </body>
 </html>

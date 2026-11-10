@@ -227,6 +227,104 @@ function renderRoadmap() {
   activate(0);
 }
 
+const pageRoutes = new Map([
+  ['Visão geral',''], ['Decisão de dezembro','decisao'], ['Equipe de implantação','equipe'],
+  ['Entregas e indicadores','indicadores'], ['Empresas','empresas'], ['Apoiadores','apoiadores'],
+  ['Startups e soluções','startups'], ['Desafios','desafios'], ['Plano de ação','plano'],
+  ['Agenda','agenda'], ['Congresso','congresso'], ['Manifesto','manifesto'],
+  ['Diagnóstico','diagnostico'], ['Documentos','documentos'], ['Relatórios','relatorios']
+]);
+
+function openManagement(nextPage) {
+  const slug = pageRoutes.get(nextPage);
+  if (slug === undefined) return;
+  const hash = slug ? '#ceitec/' + slug : '#ceitec';
+  if (window.location.hash !== hash) window.location.hash = hash;
+}
+
+function showRoute() {
+  const hash = window.location.hash.slice(1);
+  if (hash === 'conteudo') return;
+  const isManagement = hash === 'ceitec' || hash.startsWith('ceitec/');
+  document.querySelector('#city').hidden = isManagement;
+  document.querySelector('#management').hidden = !isManagement;
+  for (const [selector, active] of [['#cityLink', !isManagement], ['#managementLink', isManagement]]) {
+    const link = document.querySelector(selector);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+  if (isManagement) {
+    const slug = hash.split('/')[1] || '';
+    page = Array.from(pageRoutes).find(([, route]) => route === slug)?.[0] || 'Visão geral';
+    render();
+    window.scrollTo({top: 0, behavior: 'instant'});
+  } else {
+    const section = document.getElementById(hash);
+    if (section && section !== document.querySelector('#city')) section.scrollIntoView();
+    else window.scrollTo({top: 0, behavior: 'instant'});
+  }
+}
+
+function managementOverview() {
+  return head('Painel de gestão CEITEC', 'Operação dos Desafios E-MOB e acompanhamento do plano 2026–2031.') +
+    `<section class="decision-banner"><div><p class="eyebrow">NOV–DEZ 2026 · ESTRUTURAÇÃO</p><h2>Viabilizar liderança executiva e TI</h2><p>Definir responsáveis e requisitos da plataforma até dezembro. Em 2027, a equipe coloca a plataforma em operação e conduz os primeiros desafios.</p></div>
+    ${btn('Ver decisões e próximos passos ↗', "go('Decisão de dezembro')", 'lime')}</section>` +
+    dashboardMetrics();
+}
+
+function executiveDecision() {
+  return head('Decisão de dezembro de 2026', 'Proposta para deliberação da Prefeitura de São Bernardo do Campo.') +
+    `<div class="decision-cards">
+      <article class="card operating-note"><span class="flag">NOV–DEZ 2026 · DECISÃO</span><h2>Definir a estrutura executiva e de TI</h2>
+        <ul><li>Encaminhar a definição da liderança executiva e da equipe de TI, com atribuições e recursos a avaliar pelas áreas competentes.</li>
+        <li>Organizar as contribuições do Congresso e priorizar as primeiras entregas de 2027.</li>
+        <li>Definir os requisitos e a sequência de desenvolvimento da primeira versão da plataforma.</li></ul>
+        <div class="decision-actions">${btn('Ver responsabilidades', "go('Equipe de implantação')")}</div>
+      </article>
+      <article class="card operating-note"><span class="flag purple">2027 · EXECUÇÃO</span><h2>Colocar a plataforma e os desafios em operação</h2>
+        <ul><li>Implantar os cadastros e o acompanhamento das demandas da indústria.</li>
+        <li>Conduzir a curadoria de soluções e registrar as decisões sobre os testes pactuados.</li>
+        <li>Consolidar os resultados do primeiro ciclo e encaminhar o modelo de continuidade.</li></ul>
+        <div class="decision-actions">${btn('Ver entregas e indicadores', "go('Entregas e indicadores')")}</div>
+      </article>
+    </div>`;
+}
+
+function executiveTeam() {
+  return head('Equipe de implantação', 'Estruturação em 2026 e responsabilidades para a execução em 2027.') +
+    `<div class="decision-cards">
+      <article class="card"><span class="flag">01 · LIDERANÇA EXECUTIVA</span><h2>Da escuta industrial à entrega</h2><ul>
+        <li><strong>2026:</strong> organizar as contribuições do Congresso, definir responsabilidades e preparar a agenda de 2027.</li>
+        <li><strong>2027:</strong> mobilizar indústrias, startups e instituições de pesquisa.</li>
+        <li>Validar a ficha do primeiro desafio, coordenar a busca por soluções e acompanhar a seleção e os testes pactuados.</li>
+        <li>Responder pela carteira de ações, pelos indicadores e pela prestação de contas do ciclo.</li>
+      </ul></article>
+      <article class="card"><span class="flag purple">02 · DESENVOLVIMENTO / TI</span><h2>Dos cadastros ao acompanhamento</h2><ul>
+        <li><strong>2026:</strong> levantar requisitos, priorizar funcionalidades e planejar o desenvolvimento.</li>
+        <li><strong>2027:</strong> implantar portal, cadastros e registros de relacionamento da rede.</li>
+        <li>Estruturar inscrições, curadoria, perfis de acesso e histórico das decisões.</li>
+        <li>Entregar painel de indicadores, trilha de registros e exportação de dados para a gestão.</li>
+      </ul></article>
+    </div>`;
+}
+
+function executiveIndicators() {
+  return head('Entregas e indicadores', 'Acompanhamento da estruturação em 2026 e da operação inicial em 2027.') +
+    `<section class="card operating-note"><h2>Entregas verificáveis do primeiro ciclo</h2><div class="milestone-grid">
+      <article><h3>2026 · Estruturação</h3><p>Proposta de liderança e TI, responsabilidades definidas e requisitos da plataforma levantados.</p></article>
+      <article><h3>2027 · Implantação</h3><p>Plataforma em operação, cadastros ativos e primeiros desafios qualificados.</p></article>
+      <article><h3>2027 · Curadoria e testes</h3><p>Soluções avaliadas, seleção documentada e testes acompanhados quando pactuados.</p></article>
+      <article><h3>2027 · Balanço</h3><p>Resultados do ciclo, evidências, carteira de oportunidades e plano de continuidade.</p></article>
+    </div><p class="note">Indicadores propostos: desafios qualificados, soluções avaliadas, testes com decisão registrada e organizações mobilizadas.</p></section>
+    <section class="card operating-note"><h2>Como o desafio se transforma em projeto</h2>
+      <p>Indústria apresenta a demanda → CEITEC qualifica e busca soluções → startups apresentam propostas → CEITEC conduz a curadoria em até 45 dias após o encerramento → partes pactuam teste e decidem sobre continuidade comercial.</p>
+      <ul><li><strong>Piloto de até 90 dias:</strong> solução já em operação, com remuneração e condições a pactuar com a indústria.</li>
+      <li><strong>Prova de conceito de até 30 dias:</strong> validação em ambiente fabril com escopo, indicadores, segurança e remuneração pactuados.</li></ul>
+      <p class="note">Antes do teste, definir confidencialidade, propriedade intelectual, responsabilidades e tratamento de dados.</p>
+    </section>
+    <div class="decision-actions">${btn('Abrir plano de ação', "go('Plano de ação')", 'primary')}</div>`;
+}
+
 function supporterCards() {
   const tiers = [
     {name: 'Ouro', style: 'gold', value: 'R$ 150 mil por ano', benefits: [
@@ -254,3 +352,21 @@ function supporterCards() {
 
 renderRoadmap();
 document.querySelector('#city-supporter-tiers').innerHTML = supporterCards();
+window.addEventListener('hashchange', showRoute);
+showRoute();
+
+function renderManagementNav() {
+  const groups = [
+    ['Gestão executiva', ['Visão geral', 'Decisão de dezembro', 'Equipe de implantação', 'Entregas e indicadores']],
+    ['Cadastros e parcerias', ['Empresas', 'Startups e soluções', 'Apoiadores']],
+    ['Inovação aberta', ['Desafios']],
+    ['Comunicação', ['Congresso', 'Manifesto', 'Diagnóstico']],
+    ['Acompanhamento', ['Agenda', 'Documentos', 'Relatórios', 'Plano de ação']]
+  ];
+  const icons = new Map(pages.map(([icon, label]) => [label, icon]));
+  document.querySelector('#nav').innerHTML = groups.map(([title, labels]) => `
+    <div class="nav-label">${title}</div>${labels.map(label => `
+      <button type="button" ${label === page ? 'class="active" aria-current="page"' : ''} onclick="go('${label}')">
+        <span class="ico" aria-hidden="true">${icons.get(label)}</span>${label}
+      </button>`).join('')}`).join('');
+}
